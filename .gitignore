@@ -75,3 +75,6 @@ DerivedDataCache/*
 
 # ide (rider)
 .idea/
+
+# dotnet
+*.DotSettings.user
