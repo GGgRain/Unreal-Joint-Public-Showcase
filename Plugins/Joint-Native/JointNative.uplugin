@@ -1,0 +1,43 @@
+{
+	"FileVersion": 3,
+	"Version": 22,
+	"VersionName": "1.13.0",
+	"FriendlyName": "Joint Native",
+	"Description": "Official Extension Plugin for Joint - for Highly Customizable Advanced Narrative System",
+	"Category": "Conversation",
+	"CreatedBy": "DevGrain",
+	"CreatedByURL": "https://github.com/GGgRain",
+	"DocsURL": "https://gggrain.github.io/Unreal-Joint-Documentation/",
+	"MarketplaceURL": "",
+	"SupportURL": "https://discord.gg/DzNFax2aBS",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "JointNative",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
+			"Name": "JointNativeEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "Joint",
+			"Enabled": true
+		},
+		{
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		}
+	]
+}

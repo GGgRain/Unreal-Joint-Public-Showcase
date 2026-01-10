@@ -1,0 +1,33 @@
+﻿#pragma once
+
+#include "CoreMinimal.h"
+
+/**
+ * Editor extension hub for Joint Showcase.
+ * It holds delegates that can be bound to by editor modules so that BPFLs in runtime modules can call back into editor code.
+ */
+
+class JOINTPUBLICSHOWCASE_API FJointShowcaseEditorCallbackHub : public TSharedFromThis<FJointShowcaseEditorCallbackHub>
+{
+public:
+	
+	FJointShowcaseEditorCallbackHub();
+	~FJointShowcaseEditorCallbackHub();
+
+public:
+	
+	// DELEGATES
+	
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenEditorForAsset, UObject*);
+
+public:
+	
+	//Delegate for UBasicStuffBPFL::OpenEditorForAsset
+	FOnOpenEditorForAsset OnOpenEditorForAsset;
+	
+	
+public:
+	
+	static TWeakPtr<FJointShowcaseEditorCallbackHub> Get();
+	
+};
