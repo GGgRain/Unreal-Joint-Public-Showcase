@@ -19,6 +19,7 @@
 #include "GraphEditorDragDropAction.h"
 #include "JointEdGraphNode_Composite.h"
 #include "JointEditorCommands.h"
+#include "JointEditorLogChannels.h"
 #include "K2Node_CallFunction.h"
 #include "K2Node_MakeStruct.h"
 #include "ScopedTransaction.h"
@@ -609,7 +610,8 @@ void UJointEdGraphSchema::GetContextMenuActions(UToolMenu* Menu, UGraphNodeConte
 	if (!Context->bIsDebugging)
 	{
 		FToolMenuSection& DissolveSolidifyActionsSession = Menu->AddSection("DissolveSolidifyActionsMenu",LOCTEXT("DebugActionsMenuDissolveSolidifyHeader", "Dissolve & Solidify Actions"));
-		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveSubNodeIntoParentNode);
+		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveSubNodesIntoParentNode);
+		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveExactSubNodeIntoParentNode);
 		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().SolidifySubNodesFromParentNode);
 	}
 

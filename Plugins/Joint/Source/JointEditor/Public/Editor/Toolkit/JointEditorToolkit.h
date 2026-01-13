@@ -415,11 +415,14 @@ public:
 	void OnToggleDebuggerExecution();
 	bool GetCheckedToggleDebuggerExecution() const;
 
-	void OnDissolveSubNode();
-	bool CheckCanDissolveSubNode() const;
+	void OnDissolveSubNodes();
+	bool CheckCanDissolveSubNodes() const;
 
-	void OnSolidifySubNode();
-	bool CheckCanSolidifySubNode() const;
+	void OnDissolveExactSubNode();
+	bool CheckCanDissolveExactSubNode() const;
+	
+	void OnSolidifySubNodes();
+	bool CheckCanSolidifySubNodes() const;
 
 	void OnToggleVisibilityChangeModeForSimpleDisplayProperty();
 	bool GetCheckedToggleVisibilityChangeModeForSimpleDisplayProperty() const;

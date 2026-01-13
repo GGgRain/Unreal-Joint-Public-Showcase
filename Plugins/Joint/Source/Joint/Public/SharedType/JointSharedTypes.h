@@ -33,9 +33,12 @@ UENUM(BlueprintType)
 enum class EJointActorExecutionType : uint8
 {
 	None UMETA(DisplayName="None"), // Default value - helps to abort any execution.
-	BeginPlay UMETA(DisplayName="Begin Play"),
-	Pending UMETA(DisplayName="Pending"),
-	EndPlay UMETA(DisplayName="End Play"),
+	PreBeginPlay UMETA(DisplayName="Pre Begin Play"),
+	PostBeginPlay UMETA(DisplayName="Post Begin Play"),
+	PrePending UMETA(DisplayName="Pre Pending"),
+	PostPending UMETA(DisplayName="Post Pending"),
+	PreEndPlay UMETA(DisplayName="Pre End Play"),
+	PostEndPlay UMETA(DisplayName="Post End Play"),
 };
 
 /**

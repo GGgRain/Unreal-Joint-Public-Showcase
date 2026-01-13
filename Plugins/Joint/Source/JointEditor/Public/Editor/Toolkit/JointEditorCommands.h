@@ -48,7 +48,9 @@ public:
 
 public:
 
-	TSharedPtr<FUICommandInfo> DissolveSubNodeIntoParentNode;
+	TSharedPtr<FUICommandInfo> DissolveSubNodesIntoParentNode;
+	TSharedPtr<FUICommandInfo> DissolveExactSubNodeIntoParentNode;
+
 	TSharedPtr<FUICommandInfo> SolidifySubNodesFromParentNode;
 
 public:

@@ -49,8 +49,9 @@ void FJointEditorCommands::RegisterCommands()
 
 	UI_COMMAND(ToggleDebuggerExecution, "Toggle Debugger Execution", "Toggle the debugger's execution to prevent any exection halting by the breakpoints on any Joint.",  EUserInterfaceActionType::ToggleButton, FInputChord(EModifierKey::FromBools(1,1,1,0), EKeys::F11));
 	
-	UI_COMMAND(DissolveSubNodeIntoParentNode, "Dissolve Sub Node", "Dissolve this sub node with its parent node.",  EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control + EModifierKey::Shift,EKeys::D));
-	UI_COMMAND(SolidifySubNodesFromParentNode, "Solidify Sub Nodes", "Solidify all the sub nodes from this node.",  EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control + EModifierKey::Shift, EKeys::S));
+	UI_COMMAND(DissolveSubNodesIntoParentNode, "Dissolve Sub Nodes", "Dissolve the selected node and all its sub node with its parent node.",  EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control + EModifierKey::Shift,EKeys::D));
+	UI_COMMAND(DissolveExactSubNodeIntoParentNode, "Dissolve Exact Sub Node Only", "Dissolve only the selected node with its parent node, without dissolving it's children.",  EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control + EModifierKey::Shift,EKeys::E));
+	UI_COMMAND(SolidifySubNodesFromParentNode, "Solidify Sub Nodes", "Solidify all the sub nodes of this node.",  EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control + EModifierKey::Shift, EKeys::S));
 	
 	UI_COMMAND(ShowIndividualVisibilityButtonForSimpleDisplayProperty, "Show Individual Visibility Button For Simple Display Property", "Show Individual Visibility Button For Simple Display Property.",  EUserInterfaceActionType::ToggleButton, FInputChord(EKeys::X));
 

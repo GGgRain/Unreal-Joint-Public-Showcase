@@ -36,5 +36,13 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Editor")
 	static void OpenEditorForAsset(UObject* Asset);
+
+	/**
+	 * Load a level in the editor for showcase purposes.
+	 * It works differently on Editor and Packaged builds - in Editor, it opens the level in the editor while halting PIE/Simulate if any is running, while in Packaged builds it just loads the level.
+	 * @param LevelToLoad The level to load.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Editor")
+	static void LoadLevelForShowcase(const TSoftObjectPtr<UWorld> LevelToLoad);
 	
 };

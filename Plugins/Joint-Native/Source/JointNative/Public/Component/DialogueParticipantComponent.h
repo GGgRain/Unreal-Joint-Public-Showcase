@@ -62,21 +62,21 @@ public:
 	 * Get a participant module by class.
 	 * @param ModuleClass The module class to search.
 	 */
-	UFUNCTION(BlueprintPure, Category="Dialogue Participant Component")
+	UFUNCTION(BlueprintPure, Category="Dialogue Participant Component", meta=(DeterminesOutputType="ModuleClass"))
 	UDialogueParticipantModuleItem* GetParticipantModuleByClass(TSubclassOf<UDialogueParticipantModuleItem> ModuleClass) const;
 
 	/**
 	 * Get all participant modules by class.
 	 * @param ModuleClass The module class to search.
 	 */
-	UFUNCTION(BlueprintPure, Category="Dialogue Participant Component")
+	UFUNCTION(BlueprintPure, Category="Dialogue Participant Component", meta=(DeterminesOutputType="ModuleClass"))
 	TArray<UDialogueParticipantModuleItem*> GetParticipantModulesByClass(TSubclassOf<UDialogueParticipantModuleItem> ModuleClass) const;
 	
 	/**
 	 * Add a new participant module by class. (it will not be replicated if you add it on the client side. You have to add it on the server side to replicate it properly)
 	 * @param ModuleClass The module class to add.
 	 */
-	UFUNCTION(BlueprintCallable, Category="Dialogue Participant Component")
+	UFUNCTION(BlueprintCallable, Category="Dialogue Participant Component", meta=(DeterminesOutputType="ModuleClass"))
 	UDialogueParticipantModuleItem* AddParticipantModuleByClass(TSubclassOf<UDialogueParticipantModuleItem> ModuleClass);
 
 	/**

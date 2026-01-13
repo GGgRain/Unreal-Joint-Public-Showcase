@@ -14,12 +14,12 @@ public:
 	
 public:
 
-
 	void RegisterExtensions();
 	void UnregisterExtensions();
 	
 public:
 	
 	void CB_OpenEditorForAsset(UObject* Asset);
-	
+	void CB_ChangeLevelOnEditor(TSoftObjectPtr<UWorld> World);
+
 };

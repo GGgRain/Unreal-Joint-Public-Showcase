@@ -35,6 +35,9 @@ UDF_Break::UDF_Break()
 
 void UDF_Break::Break()
 {
+	// If the node has ended play, do nothing - we don't allow this action.
+	if (IsNodeEndedPlay()) return;
+	
 	bIsBroken = true;
 	
 	// Also mark the parentmost node as pending, so that the Joint instance will re-evaluate the flow from there.

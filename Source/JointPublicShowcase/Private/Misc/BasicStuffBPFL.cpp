@@ -52,3 +52,21 @@ void UBasicStuffBPFL::OpenEditorForAsset(UObject* Asset)
 {
 	FJointShowcaseEditorCallbackHub::Get().Pin()->OnOpenEditorForAsset.Broadcast(Asset);
 }
+
+void UBasicStuffBPFL::LoadLevelForShowcase(const TSoftObjectPtr<UWorld> LevelToLoad)
+{
+	
+#if WITH_EDITOR
+	
+	// load level in the editor
+	FJointShowcaseEditorCallbackHub::Get().Pin()->OnChangeLevelOnEditor.Broadcast(LevelToLoad);
+	
+#else
+	
+	if (!LevelToLoad.IsValid()) return;
+	
+	UGameplayStatics::OpenLevel(GWorld, LevelToLoad.GetAssetName());
+	
+#endif
+	
+}

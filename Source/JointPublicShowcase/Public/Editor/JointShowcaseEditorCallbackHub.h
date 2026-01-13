@@ -19,13 +19,16 @@ public:
 	// DELEGATES
 	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenEditorForAsset, UObject*);
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeLevelOnEditor, TSoftObjectPtr<UWorld>);
 
 public:
 	
 	//Delegate for UBasicStuffBPFL::OpenEditorForAsset
 	FOnOpenEditorForAsset OnOpenEditorForAsset;
 	
-	
+	//Delegate for UBasicStuffBPFL::LoadLevelForShowcase
+	FOnChangeLevelOnEditor OnChangeLevelOnEditor;
+
 public:
 	
 	static TWeakPtr<FJointShowcaseEditorCallbackHub> Get();
