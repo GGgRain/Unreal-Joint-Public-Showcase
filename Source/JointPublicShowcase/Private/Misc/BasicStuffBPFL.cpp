@@ -2,7 +2,7 @@
 
 
 #include "Misc/BasicStuffBPFL.h"
-
+#include "Kismet/GameplayStatics.h"
 #include "Editor/JointShowcaseEditorCallbackHub.h"
 
 TArray<int32> UBasicStuffBPFL::GetRangeArray(const int32 Start, const int32 End)
@@ -63,9 +63,9 @@ void UBasicStuffBPFL::LoadLevelForShowcase(const TSoftObjectPtr<UWorld> LevelToL
 	
 #else
 	
-	if (!LevelToLoad.IsValid()) return;
+	if (LevelToLoad.IsNull()) return;
 	
-	UGameplayStatics::OpenLevel(GWorld, LevelToLoad.GetAssetName());
+	UGameplayStatics::OpenLevel(GWorld, *LevelToLoad.GetAssetName());
 	
 #endif
 	
