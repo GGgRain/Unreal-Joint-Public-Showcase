@@ -257,7 +257,7 @@ bool FJointEdGraphNodesCustomizationBase::CheckIfEveryNodeAllowPinDataControl(TA
 		if (!NodeInstanceObj) continue;
 
 		if (UJointNodeBase* NodeBase = Cast<UJointNodeBase>(NodeInstanceObj); NodeBase && !NodeBase->
-			GetAllowNodeInstancePinControl())
+			GetAllowEditingOfPinDataOnDetailsPanel())
 		{
 			bCanShowPinDataProperty = false;
 

@@ -862,8 +862,10 @@ public:
 	
 public:
 
-	bool GetAllowNodeInstancePinControl();
-
+#if WITH_EDITOR
+	bool GetAllowEditingOfPinDataOnDetailsPanel();
+#endif
+	
 public:
 
 #if WITH_EDITORONLY_DATA

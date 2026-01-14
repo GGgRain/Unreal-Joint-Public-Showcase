@@ -250,7 +250,16 @@ void UJointEyeControlComponent::CollectLookAtNearbyActors()
 
 				if (bUseLinearVelocityForWeighting)
 				{
-					const float InterpTarget = OverlappedActor->GetVelocity().Size() * NearbyActorsVelocityWeightMultiplier + NearbyActorsBaseWeight;
+					const float DistanceWeight = FMath::Clamp(
+						1.0f - (FVector::Dist(GetOwner()->GetActorLocation(), OverlappedActor->GetActorLocation()) / NearbyActorsTraceRadius),
+						0.0f,
+						1.0f
+					);
+					
+					const float InterpTarget =
+						OverlappedActor->GetVelocity().Size() * NearbyActorsVelocityWeightMultiplier 
+						+ NearbyActorsDistanceWeightMultiplier * DistanceWeight 
+						+ NearbyActorsBaseWeight;
 
 					// use interpolation when lowering weight
 					if (FoundTrack->CurrentWeight < InterpTarget)
@@ -393,6 +402,51 @@ FGuid UJointEyeControlComponent::AddEyeControlLookAtTrackForDefinition(const FNa
 	UpdateTargetLookAt();
 	
 	return NewLookAtTrack.GetTrackGuid();
+}
+
+bool UJointEyeControlComponent::RemoveEyeControlLookAtTrackForGuid(const FGuid& Guid, bool bUpdate)
+{
+	// iterate from the end to allow removal
+	for (int32 i = EyeControlLookAtTracks.Num() - 1; i >= 0; --i)
+	{
+		FJointEyeControlLookAtTrack& EyeControlLookAtTrack = EyeControlLookAtTracks[i];
+		if (EyeControlLookAtTrack.GetTrackGuid() == Guid)
+		{
+			EyeControlLookAtTracks.RemoveAt(i);
+
+			if (bUpdate)
+			{
+				// immediately update the target look at to remove the track
+				UpdateTargetLookAt();
+			}
+			
+			return true;
+		}
+	}
+	return false;
+}
+
+bool UJointEyeControlComponent::RemoveEyeControlLookAtTrackForName(const FName& TrackName, bool bUpdate)
+{
+	// iterate from the end to allow removal
+	for (int32 i = EyeControlLookAtTracks.Num() - 1; i >= 0; --i)
+	{
+		FJointEyeControlLookAtTrack& EyeControlLookAtTrack = EyeControlLookAtTracks[i];
+		if (EyeControlLookAtTrack.GetTrackName() == TrackName)
+		{
+			EyeControlLookAtTracks.RemoveAt(i);
+
+			if (bUpdate)
+			{
+				// immediately update the target look at to remove the track
+				UpdateTargetLookAt();
+			}
+			
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 void UJointEyeControlComponent::OverrideJointEyeControlLookAtTrack(const FJointEyeControlLookAtTrack& NewTrack)

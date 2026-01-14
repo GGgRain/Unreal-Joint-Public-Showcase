@@ -326,17 +326,14 @@ const FJointEdPinConnectionResponse UJointNodeBase::CanAttachSubNodeOnThis_Imple
 }
 
 
+#if WITH_EDITOR
 
-bool UJointNodeBase::GetAllowNodeInstancePinControl()
+bool UJointNodeBase::GetAllowEditingOfPinDataOnDetailsPanel()
 {
-	
-#if WITH_EDITOR  
-	return EdNodeSetting.bAllowNodeInstancePinControl;  
-#else  
-	return false;  
-#endif
-	
+	return EdNodeSetting.bAllowEditingOfPinDataOnDetailsPanel;  
 }
+#endif
+
 
 void UJointNodeBase::OnCompileNode_Implementation(TArray<FJointEdLogMessage>& LogMessages)
 {

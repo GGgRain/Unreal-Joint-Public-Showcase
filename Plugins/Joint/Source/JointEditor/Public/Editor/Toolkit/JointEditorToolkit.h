@@ -382,6 +382,8 @@ public:
 	void ToggleShowRecursiveConnection();
 	bool IsShowRecursiveConnectionChecked() const;
 
+	void StartQuickPicking();
+
 public:
 
 	//Breakpoint action
@@ -421,6 +423,9 @@ public:
 	void OnDissolveExactSubNode();
 	bool CheckCanDissolveExactSubNode() const;
 	
+	void OnDissolveOnlySubNodes();
+	bool CheckCanDissolveOnlySubNodes() const;
+	
 	void OnSolidifySubNodes();
 	bool CheckCanSolidifySubNodes() const;
 
@@ -436,7 +441,9 @@ public:
 public:
 	
 	void PopulateNodePickingToastMessage();
-
+	
+	void PopulateQuickNodePickingToastMessage();
+	
 	void PopulateTransientEditingWarningToastMessage();
 
 	void PopulateVisibilityChangeModeForSimpleDisplayPropertyToastMessage();

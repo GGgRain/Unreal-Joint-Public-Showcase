@@ -183,6 +183,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Eye Control")
 	FGuid AddEyeControlLookAtTrackForDefinition(const FName& TrackName, const FJointEyeControlLookAtTrackDefinition& TrackDefinition);
 	
+	UFUNCTION(BlueprintCallable, Category="Eye Control")
+	bool RemoveEyeControlLookAtTrackForGuid(const FGuid& Guid, bool bUpdate);
+	
+	UFUNCTION(BlueprintCallable, Category="Eye Control")
+	bool RemoveEyeControlLookAtTrackForName(const FName& TrackName, bool bUpdate);
+	
 public:
 
 	/**
@@ -231,6 +237,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Eye Control")
 	float NearbyActorsVelocityWeightMultiplier = 0.5f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Eye Control")
+	float NearbyActorsDistanceWeightMultiplier = 1.5f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Eye Control")
 	bool bUseLinearVelocityForWeighting = true;

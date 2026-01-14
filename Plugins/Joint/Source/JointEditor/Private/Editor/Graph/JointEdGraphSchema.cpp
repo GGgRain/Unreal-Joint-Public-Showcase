@@ -18,6 +18,7 @@
 #include "GraphEditorActions.h"
 #include "GraphEditorDragDropAction.h"
 #include "JointEdGraphNode_Composite.h"
+#include "JointEdGraphNode_Reroute.h"
 #include "JointEditorCommands.h"
 #include "JointEditorLogChannels.h"
 #include "K2Node_CallFunction.h"
@@ -612,6 +613,7 @@ void UJointEdGraphSchema::GetContextMenuActions(UToolMenu* Menu, UGraphNodeConte
 		FToolMenuSection& DissolveSolidifyActionsSession = Menu->AddSection("DissolveSolidifyActionsMenu",LOCTEXT("DebugActionsMenuDissolveSolidifyHeader", "Dissolve & Solidify Actions"));
 		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveSubNodesIntoParentNode);
 		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveExactSubNodeIntoParentNode);
+		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().DissolveOnlySubNodesIntoParentNode);
 		DissolveSolidifyActionsSession.AddMenuEntry(FJointEditorCommands::Get().SolidifySubNodesFromParentNode);
 	}
 
@@ -730,6 +732,26 @@ FConnectionDrawingPolicy* UJointEdGraphSchema::CreateConnectionDrawingPolicy(
 	class FSlateWindowElementList& InDrawElements, class UEdGraph* InGraphObj) const
 {
 	return new FJointGraphConnectionDrawingPolicy(InBackLayerID, InFrontLayerID, InZoomFactor, InClippingRect, InDrawElements, InGraphObj);
+}
+
+void UJointEdGraphSchema::OnPinConnectionDoubleCicked(UEdGraphPin* PinA, UEdGraphPin* PinB, const FVector2D& GraphPosition) const
+{
+	const FScopedTransaction Transaction(LOCTEXT("CreateRerouteNodeOnWire", "Create Reroute Node"));
+
+	//@TODO: This constant is duplicated from inside of SGraphNodeKnot
+	const FVector2D NodeSpacerSize(42.0f, 24.0f);
+	const FVector2D KnotTopLeft = GraphPosition - (NodeSpacerSize * 0.5f);
+
+	// Create a new knot
+	UEdGraph* ParentGraph = PinA->GetOwningNode()->GetGraph();
+	UJointEdGraphNode_Reroute* NewReroute = FJointSchemaAction_NewNode::SpawnNode<UJointEdGraphNode_Reroute>(ParentGraph, nullptr, KnotTopLeft);
+	NewReroute->UpdatePins();
+
+	// Move the connections across (only notifying the knot, as the other two didn't really change)
+	PinA->BreakLinkTo(PinB);
+	PinA->MakeLinkTo((PinA->Direction == EGPD_Output) ? NewReroute->GetPinAt(0) : NewReroute->GetPinAt(1));
+	PinB->MakeLinkTo((PinB->Direction == EGPD_Output) ? NewReroute->GetPinAt(0) : NewReroute->GetPinAt(1));
+	//NewReroute->PropagatePinType();
 }
 
 
