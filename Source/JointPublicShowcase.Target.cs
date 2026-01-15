@@ -15,9 +15,13 @@ public class JointPublicShowcaseTarget : TargetRules
 		{
 			WindowsPlatform.CompilerVersion = "14.29.30159";
 		}
-		else
+		else if (Target.Version.MajorVersion == 5 && Target.Version.MinorVersion <= 6)
 		{
 			WindowsPlatform.CompilerVersion = "14.38.33144";
+		}
+		else
+		{
+			WindowsPlatform.CompilerVersion = "14.38.33145";
 		}
 		
 	}

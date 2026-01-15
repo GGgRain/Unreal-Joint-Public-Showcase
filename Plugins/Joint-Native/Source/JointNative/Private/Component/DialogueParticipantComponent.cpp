@@ -98,7 +98,7 @@ void UDialogueParticipantComponent::OnRep_CachedParticipantModulesForNetworking(
 		{
 			if (PreviousObj)
 			{
-				const bool bWasRemoved = CachedAllNodesForNetworking.Find(PreviousObj) == INDEX_NONE;
+				const bool bWasRemoved = CachedParticipantModulesForNetworking.Find(PreviousObj) == INDEX_NONE;
 				
 				if (bWasRemoved)
 				{
