@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "UObject/WeakObjectPtr.h"
+#include "Engine/NetSerialization.h"
+#include "Sound/SoundBase.h"
 #include "PhysicsSoundProviderComponent.generated.h"
 
 
-class USoundBase;
 class UPhysicalMaterial;
+class USoundAttenuation;
 
 USTRUCT(BlueprintType)
 struct JOINTPUBLICSHOWCASE_API FPhysicsSoundProviderStructureIndex

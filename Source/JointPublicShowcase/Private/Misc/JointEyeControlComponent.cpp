@@ -5,8 +5,13 @@
 
 #include "Misc/JointFacialAnimationComponent.h"
 #include "Component/DialogueParticipantComponent.h"
+#include "Engine/OverlapResult.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
+
+#include "TimerManager.h"
+#include "GameFramework/Actor.h"
+#include "Engine/World.h"
 
 FJointEyeControlLookAtTrackDefinition::FJointEyeControlLookAtTrackDefinition() :
 	MaxAge(10.0f),

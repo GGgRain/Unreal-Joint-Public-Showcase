@@ -1,6 +1,10 @@
 #include "Abilities/AbilityTask_GrabObjectHold.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemComponent.h"
+#include "GameFramework/Actor.h"
+#include "PhysicsEngine/BodyInstance.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 
 UAbilityTask_GrabObjectHold* UAbilityTask_GrabObjectHold::GrabObjectHold(

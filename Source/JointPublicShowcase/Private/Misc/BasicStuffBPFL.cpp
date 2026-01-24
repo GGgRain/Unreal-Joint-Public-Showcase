@@ -4,6 +4,9 @@
 #include "Misc/BasicStuffBPFL.h"
 #include "Kismet/GameplayStatics.h"
 #include "Editor/JointShowcaseEditorCallbackHub.h"
+#include "Engine/World.h"
+#include "Engine/Engine.h"
+#include "Components/SkeletalMeshComponent.h"
 
 TArray<int32> UBasicStuffBPFL::GetRangeArray(const int32 Start, const int32 End)
 {

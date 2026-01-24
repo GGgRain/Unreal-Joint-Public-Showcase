@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "UObject/Interface.h"
+#include "Misc/Guid.h"
+#include "UObject/SoftObjectPtr.h"
 #include "JointFacialAnimationComponent.generated.h"
+
+class UCurveFloat;
 
 UINTERFACE(Blueprintable)
 class UJointABPFacialAnimationInterface : public UInterface

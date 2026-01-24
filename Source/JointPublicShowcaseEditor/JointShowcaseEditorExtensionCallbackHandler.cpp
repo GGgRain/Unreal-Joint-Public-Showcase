@@ -2,6 +2,9 @@
 
 #include "FileHelpers.h"
 #include "Async/Async.h"
+
+#include "Editor.h"
+#include "Subsystems/AssetEditorSubsystem.h"
 #include "Editor/JointShowcaseEditorCallbackHub.h"
 
 FJointShowcaseEditorExtensionCallbackHandler::FJointShowcaseEditorExtensionCallbackHandler()

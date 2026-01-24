@@ -2,7 +2,7 @@
 
 #include "JointPublicShowcase/JointPublicShowcase.h"
 
-class FJointPublicShowcaseEditorModule;
+#include "Modules/ModuleManager.h"
 
 FJointShowcaseEditorCallbackHub::FJointShowcaseEditorCallbackHub()
 {
