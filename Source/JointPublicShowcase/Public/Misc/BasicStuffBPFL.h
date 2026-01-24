@@ -3,8 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Templates/SubclassOf.h"
+#include "GameFramework/Actor.h" 
+#include "UObject/SoftObjectPtr.h"
+
 #include "BasicStuffBPFL.generated.h"
+
+
+
+class USkeletalMeshComponent;
 
 /**
  * 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/Interface.h"
 #include "FragmentableCharacterInterface.generated.h"
 
 class UCharacterFragment;

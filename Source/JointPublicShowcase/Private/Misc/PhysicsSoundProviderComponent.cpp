@@ -3,7 +3,14 @@
 
 #include "Misc/PhysicsSoundProviderComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Components/PrimitiveComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "PhysicsEngine/BodyInstance.h"
+
+//SoundAttenuation
+#include "Sound/SoundAttenuation.h"
 #include "Sound/SoundBase.h"
+
 #include "Kismet/GameplayStatics.h"
 
 UPhysicsSoundProviderComponent::UPhysicsSoundProviderComponent()

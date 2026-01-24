@@ -1,6 +1,10 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/SoftObjectPtr.h"
+
+class UWorld;
+class UObject;
 
 /**
  * Editor extension hub for Joint Showcase.

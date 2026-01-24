@@ -3,6 +3,7 @@
 #include "GameplayAbilitySpec.h"
 #include "GameplayTagContainer.h"
 #include "GameplayEffect.h"
+#include "Engine/DataAsset.h"
 #include "JPSAbilitySet.generated.h"
 
 

@@ -2,7 +2,11 @@
 
 
 #include "Misc/JointFacialAnimationComponent.h"
-
+#include "Animation/AnimInstance.h"
+#include "Curves/CurveFloat.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
 
 void IJointABPFacialAnimationInterface::SetMorphTargetWeight_Implementation(const FName& MorphTargetName, const float Weight)
