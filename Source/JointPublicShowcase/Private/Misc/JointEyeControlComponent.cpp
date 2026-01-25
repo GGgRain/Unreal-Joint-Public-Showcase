@@ -5,7 +5,14 @@
 
 #include "Misc/JointFacialAnimationComponent.h"
 #include "Component/DialogueParticipantComponent.h"
+
+#include "Misc/EngineVersionComparison.h"
+
+
+#if UE_VERSION_NEWER_THAN( 5, 3, 0 )
 #include "Engine/OverlapResult.h"
+#endif
+
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
 

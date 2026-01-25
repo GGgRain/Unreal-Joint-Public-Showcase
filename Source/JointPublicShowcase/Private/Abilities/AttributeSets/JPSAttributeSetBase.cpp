@@ -5,6 +5,8 @@
 
 #include "GameplayEffectExtension.h"
 #include "JPSCharacter.h"
+#include "GameFramework/Controller.h"
+#include "GameFramework/PlayerController.h"
 #include "Net/UnrealNetwork.h"
 
 UJPSAttributeSetBase::UJPSAttributeSetBase() 
