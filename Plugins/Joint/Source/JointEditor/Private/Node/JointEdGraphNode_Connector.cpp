@@ -22,9 +22,10 @@
 
 UJointEdGraphNode_Connector::UJointEdGraphNode_Connector()
 {
-	bIsNodeResizeable = false;
+	DefaultEdNodeSetting.bDefaultIsNodeResizeable = false;
 
 	bCanRenameNode = false;
+	bIsNodeResizable = false;
 
 	Direction = EEdGraphPinDirection::EGPD_Output;
 
@@ -145,6 +146,8 @@ void UJointEdGraphNode_Connector::ReconstructNode()
 
 void UJointEdGraphNode_Connector::PostPlacedNewNode()
 {
+	DefaultEdNodeSetting.bDefaultIsNodeResizeable = false;
+
 	if (Direction == EEdGraphPinDirection::EGPD_Output) ConnectorGuid = FGuid::NewGuid();
 
 	UpdatePins();
@@ -267,6 +270,7 @@ void UJointEdGraphNode_Connector::PostPasteNode()
 	Super::PostPasteNode();
 }
 
+
 void UJointEdGraphNode_Connector::OnAddInputNodeButtonPressed()
 {
 	const FText Category = LOCTEXT("ConnectorCategory", "Connector");
@@ -277,10 +281,13 @@ void UJointEdGraphNode_Connector::OnAddInputNodeButtonPressed()
 	const TSharedPtr<FJointSchemaAction_AddConnector> AddConnectorAction = MakeShared<
 		FJointSchemaAction_AddConnector>(Category, MenuDesc, ToolTip);
 
-	UEdGraphNode* OutNode = AddConnectorAction->PerformAction(GetGraph(), nullptr,
-	                                                          FVector2D(NodePosX - 200 + FMath::RandRange(-30, 30),
-	                                                                    NodePosY + FMath::RandRange(-30, 30)),
-	                                                          true);
+	UEdGraphNode* OutNode = AddConnectorAction->PerformAction(
+		GetGraph(), 
+		nullptr,
+		FJointSlateVector2D(
+			NodePosX - 200 + FMath::RandRange(-30, 30),
+			NodePosY + FMath::RandRange(-30, 30)),
+			true);
 
 	if (OutNode)
 	{
@@ -346,13 +353,13 @@ TArray<UJointEdGraphNode_Connector*> UJointEdGraphNode_Connector::GetPairInputCo
 	return Connectors;
 }
 
-void UJointEdGraphNode_Connector::ModifyGraphNodeSlate()
+void UJointEdGraphNode_Connector::ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
+	if (!InGraphNodeSlate.IsValid()) return;
 
 	CachedPairOutputConnector = GetPairOutputConnector();
 
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
+	const TSharedPtr<SJointGraphNodeBase> NodeSlate = InGraphNodeSlate;
 
 	const TAttribute<FText> NodeText_Attr = TAttribute<FText>::CreateLambda([this]
 		{

@@ -11,6 +11,14 @@
 
 UJointEdGraphNode_Foundation::UJointEdGraphNode_Foundation()
 {
+	bIsNodeResizable = true;
+}
+
+void UJointEdGraphNode_Foundation::PostPlacedNewNode()
+{
+	DefaultEdNodeSetting.bDefaultIsNodeResizeable = true;
+	
+	Super::PostPlacedNewNode();
 }
 
 TSubclassOf<UJointNodeBase> UJointEdGraphNode_Foundation::SupportedNodeClass()

@@ -22,6 +22,6 @@ public:
 
 	virtual TSubclassOf<UJointNodeBase> SupportedNodeClass() override;
 
-	virtual void ModifyGraphNodeSlate() override;
+	virtual void ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
 	
 };

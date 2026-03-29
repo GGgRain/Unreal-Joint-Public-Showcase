@@ -12,8 +12,6 @@ UDialogueEdFragment_Select::UDialogueEdFragment_Select()
 {
 	NodeWidth = 0;
 	NodeHeight = 0;
-
-	bIsNodeResizeable = false;
 }
 
 void UDialogueEdFragment_Select::AllocateDefaultPins()

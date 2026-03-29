@@ -17,7 +17,8 @@ UJointEdGraphNode_Manager::UJointEdGraphNode_Manager()
 	NodeHeight = 200;
 	
 	bCanRenameNode = false;
-	
+	bIsNodeResizable = true;
+
 }
 
 
@@ -79,7 +80,7 @@ void UJointEdGraphNode_Manager::ReconstructNode()
 {
 	UpdatePins();
 
-	RequestUpdateSlate();
+	RequestRefreshingGraphNodeSlate();
 }
 
 void UJointEdGraphNode_Manager::NodeConnectionListChanged()

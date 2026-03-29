@@ -28,11 +28,12 @@ public:
 
 public:
 
-	virtual void ModifyGraphNodeSlate() override;
+	virtual void ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
+	virtual void UpdateGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
+
+public:
 
 	virtual void OnNodeInstancePropertyChanged(const FPropertyChangedEvent& PropertyChangedEvent, const FString& PropertyName) override;
-	
-	void UpdateSlate();
 
 public:
 	
@@ -43,6 +44,6 @@ public:
 	/**
 	 * A box that holds the condition representing slate.
 	 */
-	TSharedPtr<SVerticalBox> ParticipantBox;
+	TWeakPtr<SVerticalBox> ParticipantBox;
 	
 };

@@ -15,6 +15,7 @@
 #include "Framework/Commands/UICommandList.h"
 #include "Engine/LevelStreaming.h"
 #include "GraphEditor.h"
+#include "JointEdUtils.h"
 
 #include "Misc/EngineVersionComparison.h"
 
@@ -114,6 +115,7 @@ public:
 			Implementation->GetViewLocation(OutLocation, OutZoomAmount);
 		}
 	}
+	
 
 	/**
 	 * Gets the current graph view bookmark

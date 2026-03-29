@@ -32,15 +32,13 @@ UDialogueEdFragment_Condition::UDialogueEdFragment_Condition()
 	
 }
 
-void UDialogueEdFragment_Condition::ModifyGraphNodeSlate()
+void UDialogueEdFragment_Condition::ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
-	if(NodeSlate && NodeSlate->NameBox)
+	if (!InGraphNodeSlate.IsValid()) return;
+	
+	if(InGraphNodeSlate->NameBox)
 	{
-		NodeSlate->NameBox->AddSlot()
+		InGraphNodeSlate->NameBox->AddSlot()
 		.AutoWidth()
 		.HAlign(HAlign_Right)
 		.VAlign(VAlign_Center)
@@ -63,5 +61,6 @@ TSubclassOf<UJointNodeBase> UDialogueEdFragment_Condition::SupportedNodeClass()
 {
 	return UDF_Condition::StaticClass();
 }
+
 
 #undef LOCTEXT_NAMESPACE

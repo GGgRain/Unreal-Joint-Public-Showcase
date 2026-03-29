@@ -7,6 +7,7 @@
 #include "Node/DF_TextStyle.h"
 
 #include "VoltDecl.h"
+#include "Editor/Slate/GraphNode/SJointGraphNodeSubNodeBase.h"
 #include "Engine/DataTable.h"
 #include "Module/Volt_ASM_InterpRenderOpacity.h"
 #include "Module/Volt_ASM_InterpWidgetTransform.h"
@@ -32,25 +33,21 @@ TSubclassOf<UJointNodeBase> UDialogueEdFragment_TextStyle::SupportedNodeClass()
 }
 
 
-void UDialogueEdFragment_TextStyle::ModifyGraphNodeSlate()
+void UDialogueEdFragment_TextStyle::ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
-	if(NodeSlate && NodeSlate->CenterContentBox)
+	if (!InGraphNodeSlate.IsValid()) return;
+	
+	if(InGraphNodeSlate->CenterContentBox)
 	{
-		StyleBox = SNew(SVerticalBox)
-			.Visibility(EVisibility::SelfHitTestInvisible);
-
-		NodeSlate->CenterContentBox->AddSlot()
+		InGraphNodeSlate->CenterContentBox->AddSlot()
 			.HAlign(HAlign_Fill)
 			.Padding(FJointEditorStyle::Margin_Normal)
 			[
-				StyleBox.ToSharedRef()
+				SAssignNew(StyleBox, SVerticalBox)
+				.Visibility(EVisibility::SelfHitTestInvisible)
 			];
 
-		UpdateSlate();
+		RequestUpdateOfGraphNodeSlate();
 	}
 }
 
@@ -59,18 +56,15 @@ void UDialogueEdFragment_TextStyle::OnNodeInstancePropertyChanged(
 {
 	Super::OnNodeInstancePropertyChanged(PropertyChangedEvent, PropertyName);
 
-	UpdateSlate();
+	RequestUpdateOfGraphNodeSlate();
 }
 
-void UDialogueEdFragment_TextStyle::UpdateSlate()
+void UDialogueEdFragment_TextStyle::UpdateGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
-	if(NodeSlate && NodeSlate->CenterContentBox)
+	if (!InGraphNodeSlate.IsValid()) return;
+	
+	if(InGraphNodeSlate->CenterContentBox)
 	{
-		
 		UDF_TextStyle* CastedNodeInstance = GetCastedNodeInstance<UDF_TextStyle>();
 
 		if (CastedNodeInstance == nullptr) return;
@@ -136,9 +130,9 @@ void UDialogueEdFragment_TextStyle::UpdateSlate()
 	
 		VOLT_PLAY_ANIM(ConditionSlate, Anim);
 	
-		StyleBox->ClearChildren();
+		StyleBox.Pin()->ClearChildren();
 
-		StyleBox->AddSlot()
+		StyleBox.Pin()->AddSlot()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
 			[

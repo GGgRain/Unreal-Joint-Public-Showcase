@@ -4,25 +4,47 @@
 
 #include "ClassViewerFilter.h"
 #include "EdGraphSchema_K2_Actions.h"
-#include "Editor/Graph/JointEdGraph.h"
 #include "JointManager.h"
 #include "STextPropertyEditableTextBox.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Editor/SharedType/JointEditorSharedTypes.h"
+#include "Editor/Graph/JointEdGraph.h"
+
 #include "SharedType/JointSharedTypes.h"
 
+
+class UJointNodePreset;
+enum class EJointMDAdmonitionType : uint8;
 class UJointEdGraphNode;
+class UJointScriptParser;
+class UJointEdGraph;
 
 class JOINTEDITOR_API FJointEdUtils
 {
+
 public:
+	
 	//Get the editor node's subclasses of the provided class on the ClassCache of the engine instance.
 	static void GetEditorNodeSubClasses(const UClass* BaseClass, TArray<FJointGraphNodeClassData>& ClassData);
 
 	//Get the node's subclasses of the provided class on the ClassCache of the engine instance.
 	static void GetNodeSubClasses(const UClass* BaseClass, TArray<FJointGraphNodeClassData>& ClassData);
+	
+	/**
+	 * Find class data for the provided Joint node class.
+	 * @param NodeClass Node class to find class data for.
+	 * @param OutClassData Output class data for the provided node class.
+	 */
+	static FJointGraphNodeClassData FindClassDataForNodeClass(const TSubclassOf<UJointNodeBase> NodeClass);
 
 	//Find and return the first EditorGraphNode for the provided Joint node class. If there is no class for the node, returns nullptr;
 	static TSubclassOf<UJointEdGraphNode> FindEdClassForNode(FJointGraphNodeClassData Class);
+
+
+	/**
+	 * Store the editor node class cache and node class cache on the engine instance. It will be called when the module is loaded to make sure the cache is ready to use.
+	 */
+	static void StoreEditorModuleClassCache();
 
 
 	template <typename Type>
@@ -53,6 +75,23 @@ public:
 		virtual bool IsClassAllowed(const FClassViewerInitializationOptions& InInitOptions, const UClass* InClass,TSharedRef<FClassViewerFilterFuncs> InFilterFuncs) override;
 		virtual bool IsUnloadedClassAllowed(const FClassViewerInitializationOptions& InInitOptions,const TSharedRef<const IUnloadedBlueprintData> InUnloadedClassData, TSharedRef<FClassViewerFilterFuncs> InFilterFuncs) override;
 	};
+	
+public:
+	
+	template <typename Type>
+	static void GetAssetOfType(TArray<FAssetData>& OutAssets)
+	{
+		FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+		IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
+
+#if (UE_VERSION_OLDER_THAN(5, 1, 0))
+		AssetRegistryModule.Get().GetAssetsByClass(Type::StaticClass()->GetFName(), OutAssets);
+#else
+		AssetRegistryModule.Get().GetAssetsByClass(Type::StaticClass()->GetClassPathName(), OutAssets);
+#endif
+	
+	}
+
 
 public:
 
@@ -75,8 +114,29 @@ public:
 
 public:
 
-	static void HandleNewAssetActionClassPicked(FString BasePath,UClass* InClass);
+	static UBlueprint* CreateNewBlueprintAssetForClass(
+		UClass* InClass,
+		FString BasePath, 
+		const bool bOpenAfterCreate = true
+	);
+	
+	static UObject* CreateNewAssetForClass(
+		UClass* InClass,
+		FString BasePath,
+		const bool bOpenAfterCreate = true
+	);
 
+	template<typename T>
+	static T* CreateNewAssetForClass(UClass* InClass, FString BasePath, const bool bOpenAfterCreate = true)
+	{
+		UObject* NewAsset = CreateNewAssetForClass(InClass, BasePath, bOpenAfterCreate);
+		return NewAsset ? Cast<T>(NewAsset) : nullptr;
+	}
+
+public:
+	
+	static TSharedRef<SWidget> DescribeMarkdownTextAsWidget(const FString& InMarkdownText);
+	
 public:
 
 	/**
@@ -151,12 +211,20 @@ public:
 	 * @return Original Joint Node.
 	 */
 	static UJointNodeBase* GetOriginalJointNodeFromJointNode(UJointNodeBase* InJointNode);
+	
+public:
+	
+	/**
+	 * Open the provided file path in the system explorer.
+	 * @param FilePath 
+	 */
+	static void OpenFileInExplorer(const FString& FilePath);
 
 public:
 	
 	static void MarkNodesAsModifiedAndValidateName(TSet<UEdGraphNode*> InNodes);
 
-	static void MoveNodesAtLocation(TSet<UEdGraphNode*> InNodes, const FVector2D& PasteLocation);
+	static void MoveNodesAtLocation(TSet<UEdGraphNode*> InNodes, const FVector2D& Location);
 
 public:
 	
@@ -183,6 +251,8 @@ public:
 	static void RemoveNode(class UObject* NodeRemove);
 
 	static void RemoveNodes(TArray<class UObject*> NodesToRemove);
+	
+	static void RemoveNodesWithGuid(UJointManager* Manager, TArray<FGuid> NodeGuidsToRemove);
 
 public:
 	
@@ -203,10 +273,48 @@ public:
 
 public:
 
+	//Notification
+	static void FireNotification(
+		const FText& NotificationTitleText,
+		const FText& NotificationText,
+		const EJointMDAdmonitionType& AdmonitionType,
+		const float& DurationSeconds = 5.f,
+		const bool& bReportOnLog = true
+	);
+	
+public:
+	
+	static void OpenJointScriptFileSelectionWindow(TArray<FString>& OutFilePaths, bool bAllowMultipleSelection);
+
+	/**
+	 * Import files to the provided Joint manager. (e.g., importing csv files to create & update nodes)
+	 */
+	static void ImportFileToJointManager(
+		UJointManager* TargetManager, 
+		const FString& FilePath, 
+		UJointScriptParser* Parser,
+		const bool& bFireNotifications = true
+	);
+	
+public:
+
+	static void MakeConnectionFromTheDraggedPin(UEdGraphPin* FromPin, UEdGraphNode* ConnectedNode);
+
+	/**
+	 * Try to make a connection between the provided pins. It's a safe version of MakeLinkTo function with validation.
+	 * @return True if the connection is made successfully.
+	 */
+	static bool TryMakeConnectionBetweenPins(
+		UEdGraphPin* FromPin,
+		UEdGraphPin* ToPin
+	);
+
+public:
+
 	//Templates
 
-	template< class T > 
-		static inline void GetAllNodesOfClass( const UJointManager* Manager, TArray<T*>& OutNodes )
+	template <class T>
+	static void GetAllNodesOfClass(const UJointManager* Manager, TArray<T*>& OutNodes)
 	{
 		TArray<UJointEdGraph*> AllGraphs;
 		
@@ -226,8 +334,7 @@ public:
 				}
 			}
 		}
-		
 	}
-	
+
 };
 

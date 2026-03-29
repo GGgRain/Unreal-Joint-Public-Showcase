@@ -22,6 +22,7 @@ TSubclassOf<UJointNodeBase> UDialogueEdFragment_SpeakerAndListener::SupportedNod
 	return UDF_SpeakerAndListener::StaticClass();
 }
 
+
 FText UDialogueEdFragment_SpeakerAndListener::GetParticipantTextFor(const FJointNodePointer& Pointer)
 {
 	if (Pointer.Node == nullptr) return LOCTEXT("NoParticipant", "No Participant Specified");
@@ -31,15 +32,13 @@ FText UDialogueEdFragment_SpeakerAndListener::GetParticipantTextFor(const FJoint
 	return LOCTEXT("NOTParticipant", "ERROR: NOT A PARICIPANT!");
 }
 
-void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
+void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
+	if (!InGraphNodeSlate.IsValid()) return;
+	
 	UDF_SpeakerAndListener* CastedNodeInstance = GetCastedNodeInstance<UDF_SpeakerAndListener>();
 
-	if (NodeSlate && NodeSlate->CenterContentBox && CastedNodeInstance)
+	if (InGraphNodeSlate->CenterContentBox && CastedNodeInstance)
 	{
 		const TAttribute<EVisibility> SpeakersBoxVisibility_Attr = TAttribute<EVisibility>::CreateLambda([CastedNodeInstance]
 		{
@@ -71,7 +70,7 @@ void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
 			});
 
 
-		NodeSlate->CenterContentBox->AddSlot()
+		InGraphNodeSlate->CenterContentBox->AddSlot()
 			.AutoHeight()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
@@ -100,7 +99,7 @@ void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
 				]
 			];
 
-		NodeSlate->CenterContentBox->AddSlot()
+		InGraphNodeSlate->CenterContentBox->AddSlot()
 			.AutoHeight()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
@@ -109,7 +108,7 @@ void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
 				.Visibility(SpeakersBoxVisibility_Attr)
 			];
 
-		NodeSlate->CenterContentBox->AddSlot()
+		InGraphNodeSlate->CenterContentBox->AddSlot()
 			.AutoHeight()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Fill)
@@ -119,7 +118,7 @@ void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
 				.Visibility(ChevronVisibility_Attr)
 			];
 
-		NodeSlate->CenterContentBox->AddSlot()
+		InGraphNodeSlate->CenterContentBox->AddSlot()
 			.AutoHeight()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
@@ -128,20 +127,18 @@ void UDialogueEdFragment_SpeakerAndListener::ModifyGraphNodeSlate()
 				.Visibility(ListenersBoxVisibility_Attr)
 			];
 
-		UpdateSlate();
+		RequestUpdateOfGraphNodeSlate();
 	}
 }
 
-void UDialogueEdFragment_SpeakerAndListener::UpdateSlate()
+void UDialogueEdFragment_SpeakerAndListener::UpdateGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
-	if (NodeSlate && NodeSlate->CenterContentBox)
+	if (!InGraphNodeSlate.IsValid()) return;
+	
+	if (InGraphNodeSlate->CenterContentBox)
 	{
-		SpeakersBox->ClearChildren();
-		ListenersBox->ClearChildren();
+		SpeakersBox.Pin()->ClearChildren();
+		ListenersBox.Pin()->ClearChildren();
 
 		UDF_SpeakerAndListener* SpeakerAndListener = GetCastedNodeInstance<UDF_SpeakerAndListener>();
 
@@ -166,7 +163,7 @@ void UDialogueEdFragment_SpeakerAndListener::UpdateSlate()
 						return FText::GetEmpty();
 					}));
 
-			ListenersBox->AddSlot()
+			ListenersBox.Pin()->AddSlot()
 			[
 				SNew(SJointNodePointerSlate)
 				.Visibility(EVisibility::SelfHitTestInvisible)
@@ -202,7 +199,7 @@ void UDialogueEdFragment_SpeakerAndListener::UpdateSlate()
 						return FText::GetEmpty();
 					}));
 
-			SpeakersBox->AddSlot()
+			SpeakersBox.Pin()->AddSlot()
 			[
 				SNew(SJointNodePointerSlate)
 				.Visibility(EVisibility::SelfHitTestInvisible)
@@ -228,7 +225,7 @@ void UDialogueEdFragment_SpeakerAndListener::OnNodeInstancePropertyChanged(
 {
 	Super::OnNodeInstancePropertyChanged(PropertyChangedEvent, PropertyName);
 
-	UpdateSlate();
+	RequestUpdateOfGraphNodeSlate();
 }
 
 #undef LOCTEXT_NAMESPACE

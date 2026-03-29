@@ -24,10 +24,8 @@ public:
 
 	virtual TSubclassOf<UJointNodeBase> SupportedNodeClass() override;
 	
-	virtual void ModifyGraphNodeSlate() override;
-	
-	void UpdateSlate();
-
+	virtual void ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
+	virtual void UpdateGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
 public:
 
 	void OnTextChange(const FText& Text);
@@ -35,9 +33,8 @@ public:
 
 public:
 
-	TSharedPtr<SVerticalBox> ContextTextEditorContainer;
-
-	TSharedPtr<SContextTextEditor> ContextTextEditor;
+	TWeakPtr<SVerticalBox> ContextTextEditorContainer;
+	TWeakPtr<SContextTextEditor> ContextTextEditor;
 
 public:
 

@@ -18,20 +18,18 @@ class JOINTNATIVEEDITOR_API UDialogueEdFragment_SpeakerAndListener : public UJoi
 public:
 
 	virtual TSubclassOf<UJointNodeBase> SupportedNodeClass() override;
-
-	virtual void ModifyGraphNodeSlate() override;
 	
 	virtual void OnNodeInstancePropertyChanged(const FPropertyChangedEvent& PropertyChangedEvent, const FString& PropertyName) override;
-	
+
 public:
 	
-	void UpdateSlate();
+	virtual void ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
+	virtual void UpdateGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate) override;
 
 public:
 
-	TSharedPtr<SScrollBox> SpeakersBox;
-	
-	TSharedPtr<SScrollBox> ListenersBox;
+	TWeakPtr<SScrollBox> SpeakersBox;
+	TWeakPtr<SScrollBox> ListenersBox;
 
 public:
 	

@@ -14,23 +14,22 @@
 
 UDialogueEdFragment_Sequence::UDialogueEdFragment_Sequence()
 {
-	bIsNodeResizeable = false;
+	
 }
+
 
 TSubclassOf<UJointNodeBase> UDialogueEdFragment_Sequence::SupportedNodeClass()
 {
 	return UDF_Sequence::StaticClass();
 }
 
-void UDialogueEdFragment_Sequence::ModifyGraphNodeSlate()
+void UDialogueEdFragment_Sequence::ModifyGraphNodeSlate(const TSharedPtr<SJointGraphNodeBase>& InGraphNodeSlate)
 {
-	if (!GetGraphNodeSlate().IsValid()) return;
-
-	const TSharedPtr<SJointGraphNodeBase> NodeSlate = GetGraphNodeSlate().Pin();
-
-	if(NodeSlate && NodeSlate->NameBox)
+	if (!InGraphNodeSlate.IsValid()) return;
+	
+	if(InGraphNodeSlate->NameBox)
 	{
-		NodeSlate->NameBox->AddSlot()
+		InGraphNodeSlate->NameBox->AddSlot()
 		.AutoWidth()
 		.HAlign(HAlign_Right)
 		.VAlign(VAlign_Center)
